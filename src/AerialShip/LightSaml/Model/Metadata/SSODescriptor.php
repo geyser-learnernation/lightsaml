@@ -234,7 +234,7 @@ abstract class SSODescriptor extends XmlChildrenLoaderTrait implements GetXmlInt
         if ($xml->localName != $name || $xml->namespaceURI != Protocol::NS_METADATA) {
             throw new InvalidXmlException("Expected $name element and ".Protocol::NS_METADATA.' namespace but got '.$xml->localName);
         }
-
+        $class = $this;
         $this->loadXmlChildren(
             $xml,
             array(
@@ -259,13 +259,13 @@ abstract class SSODescriptor extends XmlChildrenLoaderTrait implements GetXmlInt
                     'class' => '\AerialShip\LightSaml\Model\Metadata\NameIDFormat'
                 ),
             ),
-            function(LoadFromXmlInterface $obj) {
+            function(LoadFromXmlInterface $obj) use ($class) {
                 if ($obj instanceof AbstractService) {
-                    $this->addService($obj);
+                    $class->addService($obj);
                 } else if ($obj instanceof KeyDescriptor) {
-                    $this->addKeyDescriptor($obj);
+                    $class->addKeyDescriptor($obj);
                 } else if ($obj instanceof NameIDFormat) {
-                    $this->addNameIdFormat($obj);
+                    $class->addNameIdFormat($obj);
                 } else {
                     throw new \InvalidArgumentException('Invalid item type '.get_class($obj));
                 }
