@@ -17,12 +17,8 @@ use AerialShip\LightSaml\Protocol;
 use AerialShip\LightSaml\Security\X509Certificate;
 
 
-abstract class Message implements GetXmlInterface, GetSignedXmlInterface, LoadFromXmlInterface
+abstract class Message extends BaseMessage implements GetXmlInterface, GetSignedXmlInterface, LoadFromXmlInterface
 {
-    use XmlRequiredAttributesTrait;
-    use XmlChildrenLoaderTrait;
-
-
     /** @var string */
     protected $id;
 
@@ -320,10 +316,10 @@ abstract class Message implements GetXmlInterface, GetSignedXmlInterface, LoadFr
         $this->setIssueInstant(Helper::parseSAMLTime($xml->getAttribute('IssueInstant')));
         $this->setDestination($xml->getAttribute('Destination'));
 
-
-        $this->iterateChildrenElements($xml, function(\DOMElement $node) {
+        $class = $this;
+        $this->iterateChildrenElements($xml, function(\DOMElement $node) use ($class) {
             if ($node->localName == 'Issuer' && $node->namespaceURI == Protocol::NS_ASSERTION) {
-                $this->setIssuer($node->textContent);
+                $class->setIssuer($node->textContent);
             }
         });
     }
