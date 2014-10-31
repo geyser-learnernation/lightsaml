@@ -11,11 +11,8 @@ use AerialShip\LightSaml\Meta\XmlChildrenLoaderTrait;
 use AerialShip\LightSaml\Protocol;
 
 
-class SubjectConfirmation implements GetXmlInterface, LoadFromXmlInterface
+class SubjectConfirmation extends XmlChildrenLoaderTrait implements GetXmlInterface, LoadFromXmlInterface
 {
-    use XmlChildrenLoaderTrait;
-
-
     /** @var string */
     protected $method;
 

@@ -10,10 +10,8 @@ use AerialShip\LightSaml\Meta\XmlChildrenLoaderTrait;
 use AerialShip\LightSaml\Protocol;
 
 
-class Status implements GetXmlInterface, LoadFromXmlInterface
+class Status extends XmlChildrenLoaderTrait implements GetXmlInterface, LoadFromXmlInterface
 {
-    use XmlChildrenLoaderTrait;
-
     /** @var  StatusCode */
     protected $statusCode;
 
@@ -111,14 +109,14 @@ class Status implements GetXmlInterface, LoadFromXmlInterface
         if ($xml->localName != 'Status' || $xml->namespaceURI != Protocol::SAML2) {
             throw new InvalidXmlException('Expected Status element but got '.$xml->localName);
         }
-
-        $this->iterateChildrenElements($xml, function(\DOMElement $node) {
+        $class = $this;
+        $this->iterateChildrenElements($xml, function(\DOMElement $node) use ($class) {
             if ($node->localName == 'StatusCode' && $node->namespaceURI == Protocol::SAML2) {
                 $statusCode = new StatusCode();
                 $statusCode->loadFromXml($node);
-                $this->setStatusCode($statusCode);
+                $class->setStatusCode($statusCode);
             } else if ($node->localName == 'StatusMessage' && $node->namespaceURI == Protocol::SAML2) {
-                $this->setMessage($node->textContent);
+                $class->setMessage($node->textContent);
             }
         });
 

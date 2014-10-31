@@ -9,10 +9,8 @@ use AerialShip\LightSaml\Meta\SerializationContext;
 use AerialShip\LightSaml\Meta\XmlChildrenLoaderTrait;
 use AerialShip\LightSaml\Protocol;
 
-class StatusCode implements GetXmlInterface, LoadFromXmlInterface
+class StatusCode extends XmlChildrenLoaderTrait implements GetXmlInterface, LoadFromXmlInterface
 {
-    use XmlChildrenLoaderTrait;
-
     /** @var  string */
     protected $value;
 
@@ -97,11 +95,11 @@ class StatusCode implements GetXmlInterface, LoadFromXmlInterface
             throw new InvalidXmlException('Required attribute StatusCode Value missing');
         }
         $this->setValue($xml->getAttribute('Value'));
-
-        $this->iterateChildrenElements($xml, function(\DOMElement $node) {
+        $class = $this;
+        $this->iterateChildrenElements($xml, function(\DOMElement $node) use ($class) {
             if ($node->localName == 'StatusCode' && $node->namespaceURI == Protocol::SAML2) {
-                $this->setChild(new StatusCode());
-                $this->getChild()->loadFromXml($node);
+                $class->setChild(new StatusCode());
+                $class->getChild()->loadFromXml($node);
             } else {
                 throw new InvalidXmlException('Unknown element '.$node->localName);
             }

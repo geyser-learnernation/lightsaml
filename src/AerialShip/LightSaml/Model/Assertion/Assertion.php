@@ -15,11 +15,8 @@ use AerialShip\LightSaml\Model\XmlDSig\SignatureXmlValidator;
 use AerialShip\LightSaml\Protocol;
 
 
-class Assertion implements GetXmlInterface, LoadFromXmlInterface
+class Assertion extends XmlRequiredAttributesTrait implements GetXmlInterface, LoadFromXmlInterface
 {
-    use XmlRequiredAttributesTrait;
-
-
     /** @var string */
     protected $id;
 

@@ -12,11 +12,8 @@ use AerialShip\LightSaml\Model\XmlDSig\Signature;
 use AerialShip\LightSaml\Model\XmlDSig\SignatureCreator;
 use AerialShip\LightSaml\Protocol;
 
-class EntitiesDescriptor implements GetXmlInterface, LoadFromXmlInterface
+class EntitiesDescriptor extends XmlChildrenLoaderTrait implements GetXmlInterface, LoadFromXmlInterface
 {
-    use XmlChildrenLoaderTrait;
-
-
     /** @var  int */
     protected $validUntil;
 

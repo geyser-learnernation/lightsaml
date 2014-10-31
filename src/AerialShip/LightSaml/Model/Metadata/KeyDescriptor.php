@@ -11,11 +11,8 @@ use AerialShip\LightSaml\Protocol;
 use AerialShip\LightSaml\Security\X509Certificate;
 
 
-class KeyDescriptor implements GetXmlInterface, LoadFromXmlInterface
+class KeyDescriptor extends XmlRequiredAttributesTrait implements GetXmlInterface, LoadFromXmlInterface
 {
-    use XmlRequiredAttributesTrait;
-
-
     const USE_SIGNING = 'signing';
     const USE_ENCRYPTION = 'encryption';
 

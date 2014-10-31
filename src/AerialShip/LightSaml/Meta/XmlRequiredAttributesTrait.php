@@ -5,7 +5,7 @@ namespace AerialShip\LightSaml\Meta;
 use AerialShip\LightSaml\Error\InvalidXmlException;
 
 
-trait XmlRequiredAttributesTrait
+class XmlRequiredAttributesTrait
 {
     function checkRequiredAttributes(\DOMElement $element, array $attributes) {
         foreach ($attributes as $name) {

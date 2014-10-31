@@ -11,11 +11,8 @@ use AerialShip\LightSaml\Meta\XmlChildrenLoaderTrait;
 use AerialShip\LightSaml\Protocol;
 
 
-class Subject implements GetXmlInterface, LoadFromXmlInterface
+class Subject extends XmlChildrenLoaderTrait implements GetXmlInterface, LoadFromXmlInterface
 {
-    use XmlChildrenLoaderTrait;
-
-
     /** @var NameID */
     protected $nameID;
 
@@ -95,7 +92,7 @@ class Subject implements GetXmlInterface, LoadFromXmlInterface
 
         $this->nameID = null;
         $this->subjectConfirmations = array();
-
+        $class = $this;
         $this->loadXmlChildren(
             $xml,
             array(
@@ -108,8 +105,8 @@ class Subject implements GetXmlInterface, LoadFromXmlInterface
                     'class' => '\AerialShip\LightSaml\Model\Assertion\SubjectConfirmation'
                 )
             ),
-            function ($object) {
-                $this->loadXmlCallback($object);
+            function ($object) use ($class) {
+                $class->loadXmlCallback($object);
             }
         );
         if (!$this->getSubjectConfirmations()) {

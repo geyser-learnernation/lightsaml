@@ -15,11 +15,8 @@ use AerialShip\LightSaml\Model\Metadata\Service\SingleLogoutService;
 use AerialShip\LightSaml\Protocol;
 
 
-abstract class SSODescriptor implements GetXmlInterface, LoadFromXmlInterface
+abstract class SSODescriptor extends XmlChildrenLoaderTrait implements GetXmlInterface, LoadFromXmlInterface
 {
-    use XmlChildrenLoaderTrait;
-
-
     /** @var AbstractService[] */
     protected $services;
 

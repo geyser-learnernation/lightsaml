@@ -11,11 +11,8 @@ use AerialShip\LightSaml\Meta\XmlRequiredAttributesTrait;
 use AerialShip\LightSaml\Protocol;
 
 
-class AuthnStatement implements GetXmlInterface, LoadFromXmlInterface
+class AuthnStatement extends XmlRequiredAttributesTrait implements GetXmlInterface, LoadFromXmlInterface
 {
-    use XmlRequiredAttributesTrait;
-
-
     /** @var int */
     protected $authnInstant;
 
