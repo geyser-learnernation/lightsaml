@@ -10,11 +10,8 @@ use AerialShip\LightSaml\Meta\SerializationContext;
 use AerialShip\LightSaml\Meta\XmlChildrenLoaderTrait;
 use AerialShip\LightSaml\Protocol;
 
-class EntityDescriptor implements GetXmlInterface, LoadFromXmlInterface
+class EntityDescriptor extends XmlChildrenLoaderTrait implements GetXmlInterface, LoadFromXmlInterface
 {
-    use XmlChildrenLoaderTrait;
-
-
     /** @var string */
     protected $entityID;
 
@@ -161,7 +158,7 @@ class EntityDescriptor implements GetXmlInterface, LoadFromXmlInterface
             throw new InvalidXmlException('Missing entityID attribute');
         }
         $this->setEntityID($xml->getAttribute('entityID'));
-
+        $class = $this;
         $this->loadXmlChildren(
             $xml,
             array(
@@ -174,8 +171,8 @@ class EntityDescriptor implements GetXmlInterface, LoadFromXmlInterface
                     'class' => '\AerialShip\LightSaml\Model\Metadata\IdpSsoDescriptor'
                 ),
             ),
-            function(LoadFromXmlInterface $obj) {
-                $this->addItem($obj);
+            function(LoadFromXmlInterface $obj) use ($class) {
+                $class->addItem($obj);
             }
         );
     }

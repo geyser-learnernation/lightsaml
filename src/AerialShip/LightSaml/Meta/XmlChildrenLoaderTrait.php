@@ -3,7 +3,7 @@
 namespace AerialShip\LightSaml\Meta;
 
 
-trait XmlChildrenLoaderTrait
+class XmlChildrenLoaderTrait
 {
     protected function iterateChildrenElements(\DOMElement $xml, \Closure $elementCallback) {
         for ($node = $xml->firstChild; $node !== NULL; $node = $node->nextSibling) {
@@ -15,8 +15,9 @@ trait XmlChildrenLoaderTrait
 
     protected function loadXmlChildren(\DOMElement $xml, array $node2ClassMap, \Closure $itemCallback) {
         $result = array();
-        $this->iterateChildrenElements($xml, function(\DOMElement $node) use (&$result, $node2ClassMap, $itemCallback) {
-            $recognized = $this->doMapping($node, $node2ClassMap, $itemCallback);
+        $class= $this;
+        $this->iterateChildrenElements($xml, function(\DOMElement $node) use (&$result, $node2ClassMap, $itemCallback, $class) {
+            $recognized = $class->doMapping($node, $node2ClassMap, $itemCallback);
             if (!$recognized) {
                 $result[] = $node;
             }
