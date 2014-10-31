@@ -15,7 +15,7 @@ class XmlChildrenLoaderTrait
 
     protected function loadXmlChildren(\DOMElement $xml, array $node2ClassMap, \Closure $itemCallback) {
         $result = array();
-        $class= $this;
+        $class = $this;
         $this->iterateChildrenElements($xml, function(\DOMElement $node) use (&$result, $node2ClassMap, $itemCallback, $class) {
             $recognized = $class->doMapping($node, $node2ClassMap, $itemCallback);
             if (!$recognized) {
@@ -32,7 +32,7 @@ class XmlChildrenLoaderTrait
      * @param callable $itemCallback
      * @return \DOMElement|null
      */
-    private function doMapping(\DOMElement $node, array $node2ClassMap, \Closure $itemCallback) {
+    protected function doMapping(\DOMElement $node, array $node2ClassMap, \Closure $itemCallback) {
         $recognized = false;
         foreach ($node2ClassMap as $meta) {
             if (!$meta) continue;
@@ -50,7 +50,7 @@ class XmlChildrenLoaderTrait
     }
 
 
-    private function getNodeNameAndNamespaceFromMeta($meta, &$nodeName, &$nodeNS) {
+    protected function getNodeNameAndNamespaceFromMeta($meta, &$nodeName, &$nodeNS) {
         if (!is_array($meta)) {
             throw new \InvalidArgumentException('Meta must be array');
         }
@@ -76,7 +76,7 @@ class XmlChildrenLoaderTrait
      * @throws \InvalidArgumentException
      * @return LoadFromXmlInterface
      */
-    private function getObjectFromMetaClass($meta, \DOMElement $node) {
+    protected function getObjectFromMetaClass($meta, \DOMElement $node) {
         $class = @$meta['class'];
         if (!$class) {
             throw new \InvalidArgumentException('Missing class meta');
