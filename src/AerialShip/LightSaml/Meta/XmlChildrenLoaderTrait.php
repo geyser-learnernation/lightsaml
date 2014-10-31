@@ -32,7 +32,7 @@ class XmlChildrenLoaderTrait
      * @param callable $itemCallback
      * @return \DOMElement|null
      */
-    protected function doMapping(\DOMElement $node, array $node2ClassMap, \Closure $itemCallback) {
+    public function doMapping(\DOMElement $node, array $node2ClassMap, \Closure $itemCallback) {
         $recognized = false;
         foreach ($node2ClassMap as $meta) {
             if (!$meta) continue;
@@ -50,7 +50,7 @@ class XmlChildrenLoaderTrait
     }
 
 
-    protected function getNodeNameAndNamespaceFromMeta($meta, &$nodeName, &$nodeNS) {
+    private function getNodeNameAndNamespaceFromMeta($meta, &$nodeName, &$nodeNS) {
         if (!is_array($meta)) {
             throw new \InvalidArgumentException('Meta must be array');
         }
@@ -76,7 +76,7 @@ class XmlChildrenLoaderTrait
      * @throws \InvalidArgumentException
      * @return LoadFromXmlInterface
      */
-    protected function getObjectFromMetaClass($meta, \DOMElement $node) {
+    private function getObjectFromMetaClass($meta, \DOMElement $node) {
         $class = @$meta['class'];
         if (!$class) {
             throw new \InvalidArgumentException('Missing class meta');
