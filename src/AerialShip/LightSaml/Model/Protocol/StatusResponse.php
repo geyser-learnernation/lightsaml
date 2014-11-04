@@ -84,10 +84,11 @@ abstract class StatusResponse extends Message
         if ($xml->hasAttribute('InResponseTo')) {
             $this->setInResponseTo($xml->getAttribute('InResponseTo'));
         }
-        $this->iterateChildrenElements($xml, function(\DOMElement $node) {
+        $class = $this;
+        $this->iterateChildrenElements($xml, function(\DOMElement $node) use ($class) {
             if ($node->localName == 'Status' && $node->namespaceURI == Protocol::SAML2) {
-                $this->setStatus(new Status());
-                $this->getStatus()->loadFromXml($node);
+                $class->setStatus(new Status());
+                $class->getStatus()->loadFromXml($node);
             }
         });
         if (!$this->getStatus()) {
