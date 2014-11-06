@@ -115,7 +115,7 @@ class Subject extends XmlChildrenLoaderTrait implements GetXmlInterface, LoadFro
     }
 
 
-    protected function loadXmlCallback($object)
+    public function loadXmlCallback($object)
     {
         if ($object instanceof NameID) {
             if ($this->getNameID()) {
