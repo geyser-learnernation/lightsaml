@@ -120,6 +120,7 @@ class SubjectConfirmation extends XmlChildrenLoaderTrait implements GetXmlInterf
 
 
         $this->nameID = null;
+        $class = $this;
         $this->loadXmlChildren(
             $xml,
             array(
@@ -132,14 +133,14 @@ class SubjectConfirmation extends XmlChildrenLoaderTrait implements GetXmlInterf
                     'class' => '\AerialShip\LightSaml\Model\Assertion\SubjectConfirmationData'
                 )
             ),
-            function ($obj) {
+            function ($obj) use ($class) {
                 if ($obj instanceof NameID) {
-                    if ($this->getNameID()) {
+                    if ($class->getNameID()) {
                         throw new InvalidXmlException('More than one NameID in SubjectConfirmation');
                     }
-                    $this->setNameID($obj);
+                    $class->setNameID($obj);
                 } else if ($obj instanceof SubjectConfirmationData) {
-                    $this->setData($obj);
+                    $class->setData($obj);
                 } else {
                     throw new \LogicException('Unexpected type '.get_class($obj));
                 }
