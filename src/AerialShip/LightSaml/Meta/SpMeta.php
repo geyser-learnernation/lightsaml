@@ -1,7 +1,5 @@
 <?php
-
 namespace AerialShip\LightSaml\Meta;
-
 
 use AerialShip\LightSaml\NameIDPolicy;
 
@@ -9,16 +7,13 @@ class SpMeta
 {
     /** @var string */
     protected $nameIdFormat = NameIDPolicy::PERSISTENT;
-
+    protected $suppressNameIdPolicy = false;
     /** @var string */
     protected $authnRequestBinding;
-
     /** @var string */
     protected $responseBinding;
-
     /** @var  string */
     protected $logoutRequestBinding;
-
 
     /**
      * @param string $nameIdFormat
@@ -27,11 +22,10 @@ class SpMeta
     public function setNameIdFormat($nameIdFormat)
     {
         if (!NameIDPolicy::isValid($nameIdFormat)) {
-            throw new \InvalidArgumentException('Invalid NameIDFormat '.$nameIdFormat);
+            throw new \InvalidArgumentException('Invalid NameIDFormat ' . $nameIdFormat);
         }
         $this->nameIdFormat = $nameIdFormat;
     }
-
 
     /**
      * @return string
@@ -89,6 +83,19 @@ class SpMeta
         return $this->logoutRequestBinding;
     }
 
+    /**
+     * @return bool
+     */
+    public function getSuppressNameIdPolicy()
+    {
+        return $this->suppressNameIdPolicy;
+    }
 
-
+    /**
+     * @param bool $suppressNameIdPolicy
+     */
+    public function setSuppressNameIdPolicy($suppressNameIdPolicy)
+    {
+        $this->suppressNameIdPolicy = (bool)$suppressNameIdPolicy;
+    }
 }
