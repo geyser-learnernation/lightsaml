@@ -148,14 +148,15 @@ class LogoutRequest extends AbstractRequest
         }
 
         $signatureNode = null;
-        $this->iterateChildrenElements($xml, function(\DOMElement $node) use (&$signatureNode) {
+        $class = $this;
+        $this->iterateChildrenElements($xml, function(\DOMElement $node) use (&$signatureNode, $class) {
             if ($node->localName == 'NameID') {
                 $nameID = new NameID();
                 $nameID->loadFromXml($node);
-                $this->setNameID($nameID);
+                $class->setNameID($nameID);
             }
             if ($node->localName == 'SessionIndex') {
-                $this->setSessionIndex($node->textContent);
+                $class->setSessionIndex($node->textContent);
             }
 
             if ($node->localName == 'Signature' && $node->namespaceURI == Protocol::NS_XMLDSIG) {

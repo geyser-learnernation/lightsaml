@@ -168,11 +168,12 @@ class AuthnRequest extends AbstractRequest
 
         $signatureNode = null;
 
-        $this->iterateChildrenElements($xml, function(\DOMElement $node) use (&$signatureNode) {
+        $class = $this;
+        $this->iterateChildrenElements($xml, function(\DOMElement $node) use (&$signatureNode, $class) {
             if ($node->localName == 'NameIDPolicy' && $node->namespaceURI == Protocol::SAML2) {
-                $this->checkRequiredAttributes($node, array('Format', 'AllowCreate'));
-                $this->setNameIdPolicyFormat($node->getAttribute('Format'));
-                $this->setNameIdPolicyAllowCreate($node->getAttribute('AllowCreate') == 'true');
+                $class->checkRequiredAttributes($node, array('Format', 'AllowCreate'));
+                $class->setNameIdPolicyFormat($node->getAttribute('Format'));
+                $class->setNameIdPolicyAllowCreate($node->getAttribute('AllowCreate') == 'true');
             } else if ($node->localName == 'Signature' && $node->namespaceURI == Protocol::NS_XMLDSIG) {
                 $signatureNode = $node;
             }
